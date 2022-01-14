@@ -103,3 +103,9 @@ const getDistance = (x1, y1, x2, y2) => {
 const chooseRandom = items => items.length > 0
     ? items[floor(random() * items.length)]
     : null;
+
+const PARAMS = {
+    DEBUG: true,
+    SCALE: 3,
+    BITWIDTH: 16
+};
