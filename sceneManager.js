@@ -3,7 +3,8 @@ class SceneManager {
         this.game = game;
         this.gameSpeed = 4;
         this.game.addEntity(new NightBorne(this.game));
-        this.game.addEntity(new Totem(this.game, 0, 0, 0));
+        const SCALE = 2;
+        this.game.addEntity(new Totem(this.game, 1024 - (64 * SCALE), 720 - (96 * SCALE), 0, SCALE));
         var background = new Background();
         this.game.addEntity(new Layer(background.foregroundLayer, background.foregroundAcc, this.gameSpeed));
         this.game.addEntity(new Layer(background.backLayer, background.backAcc, this.gameSpeed));
