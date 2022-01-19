@@ -6,7 +6,7 @@ class NightBorne {
         this.spritesheet = ASSET_MANAGER.getAsset("./resources/sprites/NightBorne.png");
         this.facing = 0;
         this.action = 1;
-        this.x = 100;
+        this.x = 30;
         this.y = 500;
         this.velocity = { x : 0, y : 0 };
         this.getOffsets(this.action);
@@ -86,7 +86,6 @@ class NightBorne {
         this.updateBB();
         if (this.BB.bottom >= PARAMS.CANVAS_HEIGHT) {
             this.y = PARAMS.CANVAS_HEIGHT - this.height - this.offsety;
-            console.log(this.y);
             this.updateBB();
         }
         if (this.BB.bottom <= 673) {

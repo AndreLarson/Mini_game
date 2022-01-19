@@ -50,15 +50,15 @@ class Totem {
 
     draw(ctx) {
         this.animations[this.color][this.action].drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
-        this.animations[0][0].drawFrame(this.game.clockTick, ctx, 0 * this.scale, 0 * this.scale, this.scale);
-        this.animations[0][1].drawFrame(this.game.clockTick, ctx, 64 * this.scale, 0 * this.scale, this.scale);
-        this.animations[0][2].drawFrame(this.game.clockTick, ctx, 128 * this.scale, 0 * this.scale, this.scale);
-        this.animations[0][3].drawFrame(this.game.clockTick, ctx, 192 * this.scale, 0 * this.scale, this.scale);
-
-        this.animations[1][0].drawFrame(this.game.clockTick, ctx, 0 * this.scale, 96 * this.scale, this.scale);
-        this.animations[1][1].drawFrame(this.game.clockTick, ctx, 64 * this.scale, 96 * this.scale, this.scale);
-        this.animations[1][2].drawFrame(this.game.clockTick, ctx, 128 * this.scale, 96 * this.scale, this.scale);
-        this.animations[1][3].drawFrame(this.game.clockTick, ctx, 192 * this.scale, 96 * this.scale, this.scale);
+        // this.animations[0][0].drawFrame(this.game.clockTick, ctx, 0 * this.scale, 0 * this.scale, this.scale);
+        // this.animations[0][1].drawFrame(this.game.clockTick, ctx, 64 * this.scale, 0 * this.scale, this.scale);
+        // this.animations[0][2].drawFrame(this.game.clockTick, ctx, 128 * this.scale, 0 * this.scale, this.scale);
+        // this.animations[0][3].drawFrame(this.game.clockTick, ctx, 192 * this.scale, 0 * this.scale, this.scale);
+        //
+        // this.animations[1][0].drawFrame(this.game.clockTick, ctx, 0 * this.scale, 96 * this.scale, this.scale);
+        // this.animations[1][1].drawFrame(this.game.clockTick, ctx, 64 * this.scale, 96 * this.scale, this.scale);
+        // this.animations[1][2].drawFrame(this.game.clockTick, ctx, 128 * this.scale, 96 * this.scale, this.scale);
+        // this.animations[1][3].drawFrame(this.game.clockTick, ctx, 192 * this.scale, 96 * this.scale, this.scale);
 
         ctx.strokeStyle = 'Red';
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
