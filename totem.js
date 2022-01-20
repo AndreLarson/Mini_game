@@ -11,6 +11,7 @@ class Totem {
         this.width = 64 * this.scale;
         this.height = 96 * this.scale;
         this.velocity = { x : 520 };
+        this.dead = false;
         this.animations = [];
         this.loadAnimations();
         this.updateBB();
@@ -27,24 +28,48 @@ class Totem {
         this.animations[0][0] = new Animator(this.spritesheetBlue, 0, 0, 64, 96, 8, 0.1, 0, false, false, false); // loop false
         this.animations[0][1] = new Animator(this.spritesheetBlue, 0, 96, 64, 96, 7, 0.1, 0, false, true, false);
         this.animations[0][2] = new Animator(this.spritesheetBlue, 0, 288, 64, 96, 7, 0.1, 0, false, true, false); // loop false
-        this.animations[0][3] = new Animator(this.spritesheetBlue, 0, 384, 64, 96, 14, 0.08, 0, false, true, false); // loop false
+        this.animations[0][3] = new Animator(this.spritesheetBlue, 0, 384, 64, 96, 14, 0.08, 0, false, false, false); // loop false
 
-        this.animations[1][0] = new Animator(this.spritesheetRed, 0, 0, 64, 96, 8, 0.1, 0, false, true, false); // loop false
+        this.animations[1][0] = new Animator(this.spritesheetRed, 0, 0, 64, 96, 8, 0.1, 0, false, false, false); // loop false
         this.animations[1][1] = new Animator(this.spritesheetRed, 0, 96, 64, 96, 7, 0.1, 0, false, true, false);
         this.animations[1][2] = new Animator(this.spritesheetRed, 0, 288, 64, 96, 7, 0.1, 0, false, true, false); // loop false
-        this.animations[1][3] = new Animator(this.spritesheetRed, 0, 384, 64, 96, 14, 0.08, 0, false, true, false); // loop false
+        this.animations[1][3] = new Animator(this.spritesheetRed, 0, 384, 64, 96, 14, 0.08, 0, false, false, false); // loop false
+    };
+
+    getOffsets() {
+        switch (this.action) {
+            case 1:
+                this.offsetx = 15 * this.scale;
+                this.offsety = 35 * this.scale;
+                this.width = 35 * this.scale;
+                this.height = 56 * this.scale;
+                break;
+            case 2:
+                this.offsetx = 15 * this.scale;
+                this.offsety = 35 * this.scale;
+                this.width = 35 * this.scale;
+                this.height = 56 * this.scale;
+                break;
+        }
     };
 
     updateBB() {
-        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        this.BB = new BoundingBox(this.x + this.offsetx, this.y + this.offsety, this.width, this.height);
     };
 
     update() {
         const TICK = this.game.clockTick;
+        if (this.dead) {
+            this.action = 3;
+            if (this.animations[this.color][this.action].isDone()) {
+                this.removeFromWorld = true;
+            }
+        }
         if (this.action == 0 && this.animations[this.color][this.action].isDone()) {
             this.action = this.color == 0 ? 1 : 2;
         }
         this.x -= this.velocity.x * TICK;
+        this.getOffsets();
         this.updateBB();
     };
 

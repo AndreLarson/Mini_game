@@ -19,11 +19,9 @@ class GameEngine {
         this.click = null;
         // this.mouse = null;
         // this.wheel = null;
-        this.right = null;
-        this.left = null;
         this.up = null;
         this.down = null;
-        this.attack1 = null;
+        this.attack = null;
 
         // THE KILL SWITCH
         this.running = false;
@@ -68,19 +66,13 @@ class GameEngine {
         this.ctx.canvas.addEventListener("keydown", function (e) {
             switch (e.code) {
                 case "KeyD":
-                    that.right = true;
-                    break;
-                case "KeyA":
-                    that.left = true;
-                    break;
-                case "KeyS":
                     that.down = true;
                     break;
-                case "KeyW":
+                case "KeyA":
                     that.up = true;
                     break;
-                case "KeyQ":
-                    that.attack1 = true;
+                case "KeyW":
+                    that.attack = true;
                     break;
             }
         }, false);
@@ -88,13 +80,10 @@ class GameEngine {
         this.ctx.canvas.addEventListener("keyup", function (e) {
             switch (e.code) {
                 case "KeyD":
-                    that.right = false;
+                    that.down = false;
                     break;
                 case "KeyA":
-                    that.left = false;
-                    break;
-                case "KeyS":
-                    that.down = false;
+                    that.up = false;
                     break;
             }
         }, false);
@@ -134,6 +123,19 @@ class GameEngine {
 
     addEntity(entity) {
         this.entitiesToAdd.push(entity);
+    };
+
+    swapEntity(entity1, entity2) {
+        var a = this.entities.indexOf(entity1);
+        var b = this.entities.indexOf(entity2);
+        this.entities[a] = entity2;
+        this.entities[b] = entity1;
+    };
+
+    isBehind(entity1, entity2) {
+        var a = this.entities.indexOf(entity1);
+        var b = this.entities.indexOf(entity2);
+        return a < b;
     };
 
     draw() {
