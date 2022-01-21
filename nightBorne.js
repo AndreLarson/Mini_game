@@ -105,7 +105,7 @@ class NightBorne {
                     } else if (entity.color == 1 && !entity.dead && that.BB.bottom < entity.BB.bottom) {
                         that.action = 3;
                     }
-                    if (entity.color == 0 && that.action != && that.BB.bottom < entity.BB.bottom) {
+                    if (entity.color == 0 && that.action != 2 && that.BB.bottom < entity.BB.bottom) {
                         entity.dead = true;
                     } else if (entity.color == 0 && that.action == 2 && that.BB.bottom < entity.BB.bottom) {
                         that.action = 3;
