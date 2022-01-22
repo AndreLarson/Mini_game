@@ -21,8 +21,8 @@ class SceneManager {
         this.spawnTimer += this.game.clockTick;
         const SCALE = 2;
         if (this.spawnTimer >= 5) {
-            this.game.addEntity(new Totem(this.game, 1024 + (1.5 * 64 * SCALE), 720 - (96 * SCALE), 1, SCALE));
-            this.game.addEntity(new Totem(this.game, 1024 + (2 * 64 * SCALE), 768 - (96 * SCALE), 0, SCALE));
+            this.game.addEntity(new Totem(this.game, 1440, 720 - (96 * SCALE), 1, SCALE));
+            this.game.addEntity(new Totem(this.game, 1440 + (64 * SCALE), 768 - (96 * SCALE), 0, SCALE));
             this.spawnTimer = 0;
         }
     };
