@@ -1,9 +1,12 @@
 const gameEngine = new GameEngine();
 
 const ASSET_MANAGER = new AssetManager();
+
 ASSET_MANAGER.queueDownload("./resources/sprites/NightBorne.png");
+
 ASSET_MANAGER.queueDownload("./resources/sprites/BlueTotem.png");
 ASSET_MANAGER.queueDownload("./resources/sprites/RedTotem.png");
+
 ASSET_MANAGER.queueDownload("./resources/background/back-buildings.png");
 ASSET_MANAGER.queueDownload("./resources/background/far-buildings.png");
 ASSET_MANAGER.queueDownload("./resources/background/foreground.png");

@@ -1,4 +1,5 @@
 class Background {
+
     constructor() {
         this.farLayer = ASSET_MANAGER.getAsset("./resources/background/far-buildings.png");
         this.backLayer = ASSET_MANAGER.getAsset("./resources/background/back-buildings.png");
@@ -11,6 +12,7 @@ class Background {
 }
 
 class Layer {
+    
     constructor(img, acceleration, gameSpeed) {
         this.img = img;
         this.acceleration = acceleration;
@@ -21,7 +23,7 @@ class Layer {
         this.width = PARAMS.CANVAS_WIDTH;
         this.height = PARAMS.CANVAS_HEIGHT;
         this.frames = 0;
-    }
+    };
 
     update() {
         this.speed = this.gameSpeed * this.acceleration;
@@ -33,4 +35,5 @@ class Layer {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         ctx.drawImage(this.img, this.x + this.width, this.y, this.width, this.height);
     };
+
 }

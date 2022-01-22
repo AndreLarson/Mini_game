@@ -1,13 +1,15 @@
 class NightBorne {
+
     constructor(game) {
         this.game = game;
         this.scale = 3.5;
         this.animations = [];
         this.spritesheet = ASSET_MANAGER.getAsset("./resources/sprites/NightBorne.png");
-        this.action = 1;
+        this.action = 1; // 0 = idle, 1 = run, 2 = attack, 3 = hurt, 4 = die
         this.x = 150;
         this.y = 500;
         this.velocity = { x : 0, y : 0 };
+        this.score = 0;
         this.getOffsets(this.action);
         this.loadAnimations();
         this.updateBB();
@@ -21,11 +23,11 @@ class NightBorne {
         for (var i = 0; i < 5; i++) {
             this.animations.push([]);
         }
-        this.animations[0] = new Animator(this.spritesheet, 0, 0, 80, 80, 9, 0.09, 0, false, true, false);
-        this.animations[1] = new Animator(this.spritesheet, 0, 80, 80, 80, 6, 0.1, 0, false, true, false);
-        this.animations[2] = new Animator(this.spritesheet, 0, 160, 80, 80, 12, 0.05, 0, false, false, false);
-        this.animations[3] = new Animator(this.spritesheet, 0, 240, 80, 80, 5, 0.1, 0, false, false, false);
-        this.animations[4] = new Animator(this.spritesheet, 0, 320, 80, 80, 23, 0.07, 0, false, true, false);
+        this.animations[0] = new Animator(this.spritesheet, 0, 0, 80, 80, 9, 0.09, 0, false, true);
+        this.animations[1] = new Animator(this.spritesheet, 0, 80, 80, 80, 6, 0.1, 0, false, true);
+        this.animations[2] = new Animator(this.spritesheet, 0, 160, 80, 80, 12, 0.05, 0, false, false);
+        this.animations[3] = new Animator(this.spritesheet, 0, 240, 80, 80, 5, 0.1, 0, false, false);
+        this.animations[4] = new Animator(this.spritesheet, 0, 320, 80, 80, 23, 0.07, 0, false, true);
 
     };
 
@@ -33,21 +35,21 @@ class NightBorne {
         switch (this.action) {
             case 0:
             case 1:
-                this.offsetx = 19 * this.scale;
+                this.offsetx = 37 * this.scale;
                 this.offsety = 33 * this.scale;
-                this.width = 35 * this.scale;
+                this.width = 17 * this.scale;
                 this.height = 31 * this.scale;
                 break;
             case 2:
-                this.offsetx = 19 * this.scale;
+                this.offsetx = 49 * this.scale;
                 this.offsety = 9 * this.scale;
-                this.width = 60 * this.scale;
+                this.width = 30 * this.scale;
                 this.height = 55 * this.scale;
                 break;
             case 3:
                 this.offsetx = 19 * this.scale;
                 this.offsety = 30 * this.scale;
-                this.width = 35 * this.scale;
+                this.width = 17 * this.scale;
                 this.height = 34 * this.scale;
                 break;
             case 4:
@@ -73,13 +75,15 @@ class NightBorne {
         } else if (this.game.up) {
             this.velocity.y -= MAX_WALK;
         }
-        if (this.game.attack) {
+        if (this.game.attack && this.action != 3) {
             this.action = 2;
             if (this.animations[this.action].isDone()) {
                 this.action = 1;
                 this.game.attack = false;
             }
         } else {
+
+            this.game.attack = false;
             this.animations[2].elapsedTime = 0;
         }
         this.y += this.velocity.y * TICK;
@@ -87,11 +91,12 @@ class NightBorne {
         this.updateBB();
         if (this.BB.bottom >= PARAMS.CANVAS_HEIGHT) {
             this.y = PARAMS.CANVAS_HEIGHT - this.height - this.offsety;
-            this.updateBB();
         }
         if (this.BB.bottom <= 673) {
             this.y -= this.velocity.y * TICK;
         }
+        this.getOffsets();
+        this.updateBB();
         var that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
@@ -100,15 +105,20 @@ class NightBorne {
                         (that.BB.bottom >= entity.BB.bottom && !that.game.isBehind(that, entity))) {
                         that.game.swapEntity(that, entity);
                     }
-                    if (entity.color == 1 && that.action == 2 && that.BB.bottom < entity.BB.bottom) {
+                    var distance = entity.BB.bottom - that.BB.bottom;
+                    var inRange = distance <= 50 && distance >= 0;
+                    if (entity.color == 1 && that.action == 2 && inRange) {
+                        entity.isHit = true;
                         entity.dead = true;
-                    } else if (entity.color == 1 && !entity.dead && that.BB.bottom < entity.BB.bottom) {
+                        that.score += 1;
+                    } else if (entity.color == 1 && !entity.dead && inRange) {
                         that.action = 3;
-                    }
-                    if (entity.color == 0 && that.action != 2 && that.BB.bottom < entity.BB.bottom) {
+                    } else if (entity.color == 0 && that.action == 2 && !entity.dead && inRange) {
+                        entity.isHit = true;
+                        that.action = 3;
+                    } else if (entity.color == 0 && !entity.isHit && inRange) {
                         entity.dead = true;
-                    } else if (entity.color == 0 && that.action == 2 && that.BB.bottom < entity.BB.bottom) {
-                        that.action = 3;
+                        that.score += 1;
                     }
                     that.updateBB();
                 }
@@ -121,4 +131,5 @@ class NightBorne {
         ctx.strokeStyle = 'Red';
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     };
+
 }
