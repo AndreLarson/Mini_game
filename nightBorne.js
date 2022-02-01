@@ -3,19 +3,20 @@ class NightBorne {
     constructor(game) {
         this.game = game;
         this.scale = 3.5;
-        this.animations = [];
         this.spritesheet = ASSET_MANAGER.getAsset("./resources/sprites/NightBorne.png");
-        this.action = 1; // 0 = idle, 1 = run, 2 = attack, 3 = hurt, 4 = die
+        this.actions = { idle : 0, run : 1, attack : 2, hurt : 3, die : 4 };
+        this.action = this.actions.run; // 0 = idle, 1 = run, 2 = attack, 3 = hurt, 4 = die
         this.x = 150;
         this.y = 500;
         this.velocity = { x : 0, y : 0 };
         this.score = 0;
-        this.getOffsets(this.action);
+        this.animations = [];
         this.loadAnimations();
         this.updateBB();
     };
 
     updateBB() {
+        this.getOffsets();
         this.BB = new BoundingBox(this.x + this.offsetx, this.y + this.offsety, this.width, this.height);
     };
 
@@ -66,28 +67,26 @@ class NightBorne {
         const MAX_WALK = 200;
         this.velocity.y = 0;
 
-        if (this.animations[3].isDone()) {
-            this.action = 1;
-            this.animations[3].elapsedTime = 0;
+        if (this.animations[this.actions.hurt].isDone()) {
+            this.action = this.actions.run;
+            this.animations[this.action.hurt].elapsedTime = 0;
         }
         if (this.game.down) {
             this.velocity.y += MAX_WALK;
         } else if (this.game.up) {
             this.velocity.y -= MAX_WALK;
         }
-        if (this.game.attack && this.action != 3) {
-            this.action = 2;
-            if (this.animations[this.action].isDone()) {
-                this.action = 1;
+        if (this.game.attack && this.action != this.actions.hurt) {
+            this.action = this.actions.attack;
+            if (this.animations[this.actions.attack].isDone()) {
+                this.action = this.actions.run;
                 this.game.attack = false;
             }
         } else {
-
             this.game.attack = false;
-            this.animations[2].elapsedTime = 0;
+            this.animations[this.actions.attack].elapsedTime = 0;
         }
         this.y += this.velocity.y * TICK;
-        this.getOffsets();
         this.updateBB();
         if (this.BB.bottom >= PARAMS.CANVAS_HEIGHT) {
             this.y = PARAMS.CANVAS_HEIGHT - this.height - this.offsety;
@@ -95,7 +94,6 @@ class NightBorne {
         if (this.BB.bottom <= 673) {
             this.y -= this.velocity.y * TICK;
         }
-        this.getOffsets();
         this.updateBB();
         var that = this;
         this.game.entities.forEach(function (entity) {
@@ -107,18 +105,18 @@ class NightBorne {
                     }
                     var distance = entity.BB.bottom - that.BB.bottom;
                     var inRange = distance <= 50 && distance >= 0;
-                    if (entity.color == 1 && that.action == 2 && inRange) {
+                    if (entity.color == entity.colors.red && that.action == that.actions.attack && inRange) {
                         entity.isHit = true;
                         entity.dead = true;
-                        that.score += 1;
-                    } else if (entity.color == 1 && !entity.dead && inRange) {
-                        that.action = 3;
-                    } else if (entity.color == 0 && that.action == 2 && !entity.dead && inRange) {
+                        that.score += 100;
+                    } else if (entity.color == entity.colors.red && !entity.dead && inRange) {
+                        that.action = that.actions.hurt;
+                    } else if (entity.color == entity.colors.blue && that.action == that.actions.attack && !entity.dead && inRange) {
                         entity.isHit = true;
-                        that.action = 3;
-                    } else if (entity.color == 0 && !entity.isHit && inRange) {
+                        that.action = that.actions.hur;
+                    } else if (entity.color == entity.colors.blue && !entity.isHit && inRange) {
                         entity.dead = true;
-                        that.score += 1;
+                        that.score += 100;
                     }
                     that.updateBB();
                 }
