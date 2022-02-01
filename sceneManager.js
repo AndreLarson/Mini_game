@@ -10,19 +10,14 @@ class SceneManager {
         this.game.addEntity(new Layer(background.foregroundLayer, background.foregroundAcc, this.gameSpeed));
         this.game.addEntity(new NightBorne(this.game));
         this.spawnTimer = 0;
-        //this.loadLevel(someLevelName, mainCharStartX, mainCharStartY, isTransition, isTitle);
+        this.pattern = new TotemPattern(this.game);
     };
-
-    // loadLevel(level, x, y, transition, title) {
-    //
-    // };
 
     update() {
         this.spawnTimer += this.game.clockTick;
-        const SCALE = 2;
         if (this.spawnTimer >= 5) {
-            this.game.addEntity(new Totem(this.game, 1440, 720 - (96 * SCALE), 1, SCALE));
-            this.game.addEntity(new Totem(this.game, 1440 + (64 * SCALE), 768 - (96 * SCALE), 0, SCALE));
+            this.pattern.bottomRow(1, 0);
+            this.pattern.topRow(0, 2);
             this.spawnTimer = 0;
         }
     };
