@@ -16,6 +16,8 @@ ASSET_MANAGER.downloadAll(() => {
 	const ctx = canvas.getContext("2d");
 	PARAMS.CANVAS_WIDTH = canvas.width;
 	PARAMS.CANVAS_HEIGHT = canvas.height;
+	PARAMS.BOTTOM_PLAY_AREA = PARAMS.CANVAS_HEIGHT;
+	PARAMS.TOP_PLAY_AREA = 673;
 	ctx.imageSmoothingEnabled = false;
 	gameEngine.init(ctx);
 	new SceneManager(gameEngine);

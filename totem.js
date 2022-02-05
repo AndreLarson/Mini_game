@@ -14,6 +14,7 @@ class Totem {
 
         this.dead = false;
         this.isHit = false;
+        this.canHurt = true;
 
         this.animations = [];
         this.loadAnimations();

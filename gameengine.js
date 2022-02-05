@@ -66,13 +66,19 @@ class GameEngine {
         this.ctx.canvas.addEventListener("keydown", function (e) {
             switch (e.code) {
                 case "KeyD":
+                    that.keyPress = true;
                     that.down = true;
                     break;
                 case "KeyA":
+                    that.keyPress = true;
                     that.up = true;
                     break;
                 case "KeyW":
+                    that.keyPress = true;
                     that.attack = true;
+                    break;
+                default:
+                    that.keyPress = true;
                     break;
             }
         }, false);
@@ -80,10 +86,15 @@ class GameEngine {
         this.ctx.canvas.addEventListener("keyup", function (e) {
             switch (e.code) {
                 case "KeyD":
+                    that.keyPress = false;
                     that.down = false;
                     break;
                 case "KeyA":
+                    that.keyPress = false;
                     that.up = false;
+                    break;
+                default:
+                    that.keyPress = false;
                     break;
             }
         }, false);
@@ -141,12 +152,19 @@ class GameEngine {
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-
-        // Draw latest things first
-        for (let i = this.entities.length - 1; i >= 0; i--) {
-            this.entities[i].draw(this.ctx, this);
+        if (this.scene.deathScreen) {
+            this.scene.draw(this.ctx);
+            // Draw latest things first
+            for (let i = this.entities.length - 1; i >= 0; i--) {
+                this.entities[i].draw(this.ctx, this);
+            }
+        } else {
+            // Draw latest things first
+            for (let i = this.entities.length - 1; i >= 0; i--) {
+                this.entities[i].draw(this.ctx, this);
+            }
+            this.scene.draw(this.ctx);
         }
-        this.scene.draw(this.ctx);
     };
 
     update() {
