@@ -1,7 +1,7 @@
 class Totem {
 
-    constructor(game, x, y, color, scale) {
-        Object.assign(this, { game, x, y, color, scale });
+    constructor(game, x, y, color, scale, velocity) {
+        Object.assign(this, { game, x, y, color, scale, velocity});
         this.spritesheetBlue = ASSET_MANAGER.getAsset("./resources/sprites/BlueTotem.png");
         this.spritesheetRed = ASSET_MANAGER.getAsset("./resources/sprites/RedTotem.png");
         this.colors = { blue : 0, red : 1};
@@ -10,7 +10,6 @@ class Totem {
 
         this.width = 64 * this.scale;
         this.height = 96 * this.scale;
-        this.velocity = { x : 520 };
 
         this.dead = false;
         this.isHit = false;
@@ -69,7 +68,7 @@ class Totem {
         if (this.action == this.actions.appear && this.animations[this.color][this.actions.appear].isDone()) {
             this.action = this.color == this.colors.blue ? this.actions.idle : this.actions.attack;
         }
-        this.x -= this.velocity.x * TICK;
+        this.x -= this.velocity * TICK;
         if (this.x + this.width <= 0) this.removeFromWorld = true;
         this.updateBB();
         var that = this;

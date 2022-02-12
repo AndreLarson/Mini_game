@@ -10,26 +10,24 @@ class Background {
 };
 
 class Layer {
-    constructor(img, acceleration, gameSpeed) {
-        this.img = img;
-        this.acceleration = acceleration;
-        this.gameSpeed = gameSpeed;
-        this.speed = this.gameSpeed * this.acceleration;
+    constructor(game, img, acceleration) {
+        Object.assign(this, { game, img, acceleration});
+        this.velocity = this.gameSpeed * this.acceleration;
+        this.gameSpeed = PARAMS.INITIAL_GAME_SPEED;
         this.x = 0;
         this.y = 0;
         this.width = PARAMS.CANVAS_WIDTH;
         this.height = PARAMS.CANVAS_HEIGHT;
-        this.frames = 0;
     };
 
     incrementGameSpeed(increment) {
-        this.gameSpeed += increment;
+        this.gameSpeed = increment;
     }
 
     update() {
-        this.speed = this.gameSpeed * this.acceleration;
-        this.x = this.speed != 0 ? this.frames * this.speed % this.width : this.x;
-        this.frames--;
+        this.velocity = this.gameSpeed * this.acceleration;
+        this.x -= this.velocity * this.game.clockTick;
+        if (this.x < -this.width) this.x = 0;
     };
 
     draw(ctx) {

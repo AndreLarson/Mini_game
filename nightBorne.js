@@ -75,9 +75,8 @@ class NightBorne {
 
     update() {
         const TICK = this.game.clockTick;
-        const MAX_WALK = 200;
+        const MAX_WALK = 300;
         this.velocity.y = 0;
-        console.log(this.health);
         if (this.health <= 0) {
             this.dead = true;
         }
@@ -85,7 +84,7 @@ class NightBorne {
             this.clearEntities();
             this.scale = 10;
             this.x = (PARAMS.CANVAS_WIDTH / 2) - ((80 * this.scale) / 2);
-            this.y = (PARAMS.CANVAS_HEIGHT / 2) - ((80 * this.scale) / 2);
+            this.y = (PARAMS.CANVAS_HEIGHT / 2) - ((80 * this.scale) / 2) - (10 * this.scale);
             this.action = this.actions.die;
             if (this.animations[this.actions.die].isDone()) {
                 this.removeFromWorld = true;
@@ -137,12 +136,12 @@ class NightBorne {
                             } else if (entity.color == entity.colors.red && entity.canHurt) {
                                 entity.canHurt = false;
                                 that.action = that.actions.hurt;
-                                that.health -= 100;// TODO: change
+                                that.health -= 10;
                             } else if (entity.color == entity.colors.blue && that.action == that.actions.attack && entity.canHurt) {
                                 entity.canHurt = false;
                                 entity.isHit = true;
                                 that.action = that.actions.hurt;
-                                that.health -= 2;
+                                that.health -= 10;
                             } else if (entity.color == entity.colors.blue && !entity.isHit) {
                                 entity.dead = true;
                                 that.score += 100;

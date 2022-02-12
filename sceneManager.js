@@ -1,44 +1,24 @@
 class SceneManager {
-
     constructor(game) {
         this.game = game;
         this.game.scene = this;
-        this.gameSpeed = 4;
-        this.spawnTimer = 0;
+
         this.deathScreen = false;
         this.deathScreenShown = false;
         this.gameStart = false;
         this.startMenu = false;
-        this.endScore = 0;
+
+        this.loadPatterns();
         this.loadStartMenu();
-        // load start menu
-    };
-
-    loadStartMenu() {
-        this.startMenu = true;
-        var background = new Background();
-        this.game.addEntity(new Layer(background.farLayer, background.farAcc, this.gameSpeed));
-        this.game.addEntity(new Layer(background.backLayer, background.backAcc, this.gameSpeed));
-        this.game.addEntity(new Layer(background.foregroundLayer, background.foregroundAcc, this.gameSpeed));
-        this.player = new NightBorne(this.game);
-        this.game.addEntity(this.player);
-    };
-
-    loadLevel() {
-        this.pattern = new TotemPattern(this.game);
-        this.gameStart = true;
-    };
-
-    loadDeathScreen() {
-        this.deathScreen = true;
-        this.endScore = this.player.score;
     };
 
     update() {
+        // if dead load death screen
         if (this.player.dead) {
             this.gameStart = false;
             this.loadDeathScreen();
         }
+        // start game if key pressed while on start menu or death screen
         if (this.game.keyPress) {
             if (this.startMenu) {
                 this.startMenu = false;
@@ -49,14 +29,36 @@ class SceneManager {
                 this.loadStartMenu();
             }
         }
+        // game logic for when the game has started
         if (this.gameStart) {
-            this.spawnTimer += this.game.clockTick;
-            if (this.spawnTimer >= 5) {
-                this.pattern.bottomRow(1, 0);
-                this.pattern.topRow(0, 2);
-                this.spawnTimer = 0;
-                // pattern generation here
+            this.incrementTimers();
+            // gradually increase speed after the warmup time
+            if (this.warmUpTimer >= 10) {
+                if (this.gameSpeedTimer >= 0.005 && this.gameSpeed < 1040) {
+                    var that = this;
+                    this.game.entities.forEach(function (entity) {
+                        if (entity instanceof Layer) {
+                            that.gameSpeed += 0.01;
+                            entity.incrementGameSpeed(that.gameSpeed);
+                        }
+                    });
+                    this.gameSpeedTimer = 0;
+                }
             }
+            // decrease time between totem spawns over time
+            if (this.spawnIntervalTimer >= 30 && this.spawnInterval >= 2) {
+                this.spawnInterval -= 0.5;
+                this.spawnIntervalTimer = 0;
+            }
+            // random generation of totem patterns
+            if (this.spawnTimer >= this.spawnInterval) {
+                this.color = randomInt(2);
+                this.offset = 0;
+                this.count = randomInt(5) + 3;
+                this.patterns[randomInt(4)](this.color, this.offset, this.count, this.gameSpeed * 0.9);
+                this.spawnTimer = 0;
+            }
+
         }
     };
 
@@ -71,7 +73,6 @@ class SceneManager {
             ctx.fillStyle = "White";
             var digits = this.player.score == 0 ? 1 : Math.floor(Math.log10(this.player.score) + 1);
             ctx.fillText("Score:" + this.player.score, PARAMS.CANVAS_WIDTH - (30 * (6 + digits)), 35);
-            // draw heath on top left
         }
         if (this.deathScreen) {
             ctx.fillStyle = "black";
@@ -87,5 +88,53 @@ class SceneManager {
             }
         }
     };
+
+    loadPatterns() {
+        this.pattern = new TotemPattern(this.game);
+        let that = this;
+        let topPattern = function() { that.pattern.topRow(that.color, that.offset, that.count, that.gameSpeed) };
+        let bottomPattern = function() { that.pattern.bottomRow(that.color, that.offset, that.count, that.gameSpeed) };
+        let zzPattern = function() { that.pattern.zigZag(that.color, that.offset, that.count, that.gameSpeed) };
+        let wallPattern = function() { that.pattern.walls(that.color, that.offset, that.count, that.gameSpeed) };
+        this.patterns = [topPattern, bottomPattern, zzPattern, wallPattern];
+    };
+
+    loadStartMenu() {
+        var background = new Background();
+        this.game.addEntity(new Layer(this.game, background.farLayer, background.farAcc));
+        this.game.addEntity(new Layer(this.game, background.backLayer, background.backAcc));
+        this.game.addEntity(new Layer(this.game, background.foregroundLayer, background.foregroundAcc));
+        this.player = new NightBorne(this.game);
+        this.game.addEntity(this.player);
+        this.startMenu = true;
+    };
+
+    loadLevel() {
+        this.resetGameState();
+        this.gameStart = true;
+    };
+
+    loadDeathScreen() {
+        this.deathScreen = true;
+        this.endScore = this.player.score;
+    };
+
+    resetGameState() {
+        this.spawnIntervalTimer = 0;
+        this.gameSpeedTimer = 0;
+        this.warmUpTimer = 0;
+        this.spawnTimer = 0;
+        this.spawnInterval = 5;
+        this.gameSpeed = PARAMS.INITIAL_GAME_SPEED;
+    };
+
+    incrementTimers() {
+        this.spawnIntervalTimer += this.game.clockTick;
+        this.spawnTimer += this.game.clockTick;
+        this.gameSpeedTimer += this.game.clockTick;
+        this.warmUpTimer += this.game.clockTick;
+    };
+
+
 
 }

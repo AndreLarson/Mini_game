@@ -105,5 +105,5 @@ const chooseRandom = items => items.length > 0
     : null;
 
 const PARAMS = {
-    
+    INITIAL_GAME_SPEED : 520
 };
