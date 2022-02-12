@@ -46,7 +46,7 @@ class SceneManager {
                 }
             }
             // decrease time between totem spawns over time
-            if (this.spawnIntervalTimer >= 30 && this.spawnInterval >= 2) {
+            if (this.spawnIntervalTimer >= 30 && this.spawnInterval >= 1) {
                 this.spawnInterval -= 0.5;
                 this.spawnIntervalTimer = 0;
             }
