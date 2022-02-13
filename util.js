@@ -1,5 +1,8 @@
-/** Global Parameters Object */
-const params = { };
+/** Global parameters */
+const PARAMS = {
+    INITIAL_GAME_SPEED : 520,
+    DEBUG : false,
+};
 
 /** Easy access to math functions */
 const {
@@ -103,8 +106,3 @@ const getDistance = (x1, y1, x2, y2) => {
 const chooseRandom = items => items.length > 0
     ? items[floor(random() * items.length)]
     : null;
-
-const PARAMS = {
-    INITIAL_GAME_SPEED : 520,
-    DEBUG : false,
-};

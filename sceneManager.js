@@ -2,7 +2,6 @@ class SceneManager {
     constructor(game) {
         this.game = game;
         this.game.scene = this;
-
         this.deathScreen = false;
         this.deathScreenShown = false;
         this.gameStart = false;
@@ -58,7 +57,6 @@ class SceneManager {
                 this.patterns[randomInt(4)](this.color, this.offset, this.count, this.gameSpeed * 0.9);
                 this.spawnTimer = 0;
             }
-
         }
     };
 

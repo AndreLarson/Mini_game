@@ -118,13 +118,6 @@ class AssetManager {
         });
     };
 
-    /**
-     * This will keep an interval that will try to play the bg music
-     * until it works. This is a temporary solution until a title screen is made.
-     *
-     * Used to bypass browser restrictions.
-     * @param {*} path
-     */
     forcePlayMusic(path) {
         this.autoRepeat(path);
         const autoPlayID = setInterval(() => {

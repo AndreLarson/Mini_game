@@ -24,6 +24,7 @@ ASSET_MANAGER.downloadAll(() => {
 	PARAMS.CANVAS_HEIGHT = canvas.height;
 	PARAMS.BOTTOM_PLAY_AREA = PARAMS.CANVAS_HEIGHT;
 	PARAMS.TOP_PLAY_AREA = 673;
+	document.body.style.zoom = "80%";
 	ctx.imageSmoothingEnabled = false;
 	gameEngine.init(ctx);
 	new SceneManager(gameEngine);

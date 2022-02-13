@@ -22,7 +22,7 @@ class Layer {
 
     incrementGameSpeed(increment) {
         this.gameSpeed = increment;
-    }
+    };
 
     update() {
         this.velocity = this.gameSpeed * this.acceleration;

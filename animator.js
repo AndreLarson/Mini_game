@@ -27,7 +27,7 @@ class Animator {
         let frame = this.currentFrame();
         if (this.reverse) frame = this.frameCount - frame - 1;
         ctx.drawImage(this.spritesheet,
-            this.xStart + frame * (this.width + this.framePadding), this.yStart, //source from sheet
+            this.xStart + frame * (this.width + this.framePadding), this.yStart,
             this.width, this.height,
             x, y,
             this.width * scale,

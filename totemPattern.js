@@ -1,5 +1,4 @@
 class TotemPattern {
-
     constructor(game) {
         this.game = game;
     };
@@ -30,5 +29,4 @@ class TotemPattern {
             this.game.addEntity(new Totem(this.game, 1440 + (i * 64) + offset, 720 - (96 * 2), color, 2, velocity));
         }
     };
-
-}
+};
