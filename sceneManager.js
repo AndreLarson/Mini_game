@@ -15,6 +15,7 @@ class SceneManager {
     update() {
         // if dead load death screen
         if (this.player.dead) {
+            ASSET_MANAGER.pauseBackgroundMusic();
             this.gameStart = false;
             this.loadDeathScreen();
         }
@@ -31,6 +32,7 @@ class SceneManager {
         }
         // game logic for when the game has started
         if (this.gameStart) {
+            ASSET_MANAGER.forcePlayMusic("./resources/sfx/Shinkenshoubu.mp3");
             this.incrementTimers();
             // gradually increase speed after the warmup time
             if (this.warmUpTimer >= 10) {
@@ -117,6 +119,7 @@ class SceneManager {
     loadDeathScreen() {
         this.deathScreen = true;
         this.endScore = this.player.score;
+
     };
 
     resetGameState() {

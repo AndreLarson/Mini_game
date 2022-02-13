@@ -67,7 +67,6 @@ class NightBorne {
     clearEntities() {
         this.game.entities.forEach(function (entity) {
             if (!(entity instanceof NightBorne)) {
-                console.log(entity)
                 entity.removeFromWorld = true;
             }
         });
