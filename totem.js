@@ -86,8 +86,10 @@ class Totem {
 
     draw(ctx) {
         this.animations[this.color][this.action].drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
-        ctx.strokeStyle = 'Red';
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
     };
 
 }

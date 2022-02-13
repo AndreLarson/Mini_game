@@ -7,15 +7,20 @@ class SceneManager {
         this.deathScreenShown = false;
         this.gameStart = false;
         this.startMenu = false;
-
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.forcePlayMusic("./resources/sfx/Shinkenshoubu.mp3");
         this.loadPatterns();
         this.loadStartMenu();
     };
 
     update() {
+        if(this.game.debug) {
+            this.game.debug = false;
+            document.getElementById("debug").checked = !document.getElementById("debug").checked;
+        }
+        PARAMS.DEBUG = document.getElementById("debug").checked;
         // if dead load death screen
         if (this.player.dead) {
-            ASSET_MANAGER.pauseBackgroundMusic();
             this.gameStart = false;
             this.loadDeathScreen();
         }
@@ -32,7 +37,6 @@ class SceneManager {
         }
         // game logic for when the game has started
         if (this.gameStart) {
-            ASSET_MANAGER.forcePlayMusic("./resources/sfx/Shinkenshoubu.mp3");
             this.incrementTimers();
             // gradually increase speed after the warmup time
             if (this.warmUpTimer >= 10) {

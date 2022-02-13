@@ -156,12 +156,14 @@ class NightBorne {
 
     draw(ctx) {
         this.animations[this.action].drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
-        ctx.strokeStyle = 'Red';
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         ctx.fillStyle = 'Green';
         ctx.fillRect(30, 30, this.healthWidth * (this.health * 0.01), 30);
         ctx.strokeStyle = 'Black';
         ctx.strokeRect(30, 30, this.healthWidth, 30);
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
     };
 
 }

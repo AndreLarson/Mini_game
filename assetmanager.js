@@ -17,11 +17,12 @@ class AssetManager {
 
     downloadAll(callback) {
         if (this.downloadQueue.length === 0) setTimeout(callback, 10);
-        for (let i = 0; i < this.downloadQueue.length; i++) {
+        for (var i = 0; i < this.downloadQueue.length; i++) {
             var that = this;
+
             var path = this.downloadQueue[i];
-            var ext = path.substring(path.length - 3);
             console.log(path);
+            var ext = path.substring(path.length - 3);
 
             switch (ext) {
                 case 'jpg':
@@ -78,7 +79,7 @@ class AssetManager {
 
     playAsset(path) {
         let audio = this.cache[path];
-        //audio.currentTime = 0;
+        audio.currentTime = 0;
         audio.play();
     };
 
@@ -132,5 +133,5 @@ class AssetManager {
                 .then(() => clearInterval(autoPlayID))
                 .catch(console.error);
         }, 500);
-    }
+    };
 };

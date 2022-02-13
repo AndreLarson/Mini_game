@@ -23,6 +23,8 @@ class GameEngine {
         this.down = null;
         this.attack = null;
 
+        this.debug = null;
+
         // THE KILL SWITCH
         this.running = false;
 
