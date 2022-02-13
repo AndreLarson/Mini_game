@@ -125,7 +125,7 @@ class SceneManager {
         this.resetGameState();
         ASSET_MANAGER.pauseBackgroundMusic();
         let bgm = [];
-        bgm[0] = "./resources/sfx/bgm.mp3";
+        bgm[0] = "./resources/sfx/bgm1.mp3";
         bgm[1] = "./resources/sfx/bgm2.mp3";
         ASSET_MANAGER.forcePlayMusic(bgm[randomInt(2)]);
         this.gameStart = true;
