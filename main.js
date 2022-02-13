@@ -11,8 +11,11 @@ ASSET_MANAGER.queueDownload("./resources/background/back-buildings.png");
 ASSET_MANAGER.queueDownload("./resources/background/far-buildings.png");
 ASSET_MANAGER.queueDownload("./resources/background/foreground.png");
 
-ASSET_MANAGER.queueDownload("./resources/sfx/Shinkenshoubu.mp3");
-ASSET_MANAGER.queueDownload("./resources/sfx/Explosion.mp3");
+ASSET_MANAGER.queueDownload("./resources/sfx/bgm.mp3");
+ASSET_MANAGER.queueDownload("./resources/sfx/bgm2.mp3");
+ASSET_MANAGER.queueDownload("./resources/sfx/playerDeath.mp3");
+ASSET_MANAGER.queueDownload("./resources/sfx/playerAttack.mp3");
+ASSET_MANAGER.queueDownload("./resources/sfx/totemDeath.mp3");
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");

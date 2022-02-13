@@ -10,10 +10,12 @@ class Totem {
 
         this.width = 64 * this.scale;
         this.height = 96 * this.scale;
-
+        this.velocity = this.velocity * 0.9;
         this.dead = false;
         this.isHit = false;
         this.canHurt = true;
+
+        this.deathSound = false;
 
         this.animations = [];
         this.loadAnimations();
@@ -60,6 +62,12 @@ class Totem {
     update() {
         const TICK = this.game.clockTick;
         if (this.dead) {
+            if (!this.deathSound) {
+                this.deathSound = true;
+                let audio = ASSET_MANAGER.cache["./resources/sfx/totemDeath.mp3"].cloneNode(true);
+                audio.volume = document.getElementById("volume").value;
+                audio.play();
+            }
             this.action = this.actions.disappear;
             if (this.animations[this.color][this.action].isDone()) {
                 this.removeFromWorld = true;

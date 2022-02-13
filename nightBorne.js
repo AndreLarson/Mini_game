@@ -11,6 +11,7 @@ class NightBorne {
         this.score = 0;
         this.health = 100;
         this.canScore = true;
+        this.attackSound = false;
         this.healthWidth = 500;
         this.animations = [];
         this.loadAnimations();
@@ -101,10 +102,15 @@ class NightBorne {
             }
             // attack logic
             if (this.game.attack && this.action != this.actions.hurt) {
+                if (!this.attackSound) {
+                    ASSET_MANAGER.playAsset("./resources/sfx/playerAttack.mp3");
+                    this.attackSound = true;
+                }
                 this.action = this.actions.attack;
                 if (this.animations[this.actions.attack].isDone()) {
                     this.action = this.actions.run;
                     this.game.attack = false;
+                    this.attackSound = false;
                 }
             } else {
                 this.game.attack = false;
@@ -135,12 +141,12 @@ class NightBorne {
                             } else if (entity.color == entity.colors.red && entity.canHurt) {
                                 entity.canHurt = false;
                                 that.action = that.actions.hurt;
-                                that.health -= 10;
+                                that.health -= 7;
                             } else if (entity.color == entity.colors.blue && that.action == that.actions.attack && entity.canHurt) {
                                 entity.canHurt = false;
                                 entity.isHit = true;
                                 that.action = that.actions.hurt;
-                                that.health -= 10;
+                                that.health -= 7;
                             } else if (entity.color == entity.colors.blue && !entity.isHit) {
                                 entity.dead = true;
                                 that.score += 100;

@@ -7,20 +7,14 @@ class SceneManager {
         this.deathScreenShown = false;
         this.gameStart = false;
         this.startMenu = false;
-        ASSET_MANAGER.pauseBackgroundMusic();
-        ASSET_MANAGER.forcePlayMusic("./resources/sfx/Shinkenshoubu.mp3");
         this.loadPatterns();
         this.loadStartMenu();
     };
 
     update() {
-        if(this.game.debug) {
-            this.game.debug = false;
-            document.getElementById("debug").checked = !document.getElementById("debug").checked;
-        }
-        PARAMS.DEBUG = document.getElementById("debug").checked;
+        this.updateDebug();
         // if dead load death screen
-        if (this.player.dead) {
+        if (this.player.dead && this.gameStart) {
             this.gameStart = false;
             this.loadDeathScreen();
         }
@@ -95,6 +89,18 @@ class SceneManager {
         }
     };
 
+    updateDebug() {
+        if(this.game.debug) {
+            this.game.debug = false;
+            document.getElementById("debug").checked = !document.getElementById("debug").checked;
+        }
+        PARAMS.DEBUG = document.getElementById("debug").checked;
+        let mute = document.getElementById("mute").checked;
+        let volume = document.getElementById("volume").value;
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    };
+
     loadPatterns() {
         this.pattern = new TotemPattern(this.game);
         let that = this;
@@ -117,13 +123,18 @@ class SceneManager {
 
     loadLevel() {
         this.resetGameState();
+        ASSET_MANAGER.pauseBackgroundMusic();
+        let bgm = [];
+        bgm[0] = "./resources/sfx/bgm.mp3";
+        bgm[1] = "./resources/sfx/bgm2.mp3";
+        ASSET_MANAGER.forcePlayMusic(bgm[randomInt(2)]);
         this.gameStart = true;
     };
 
     loadDeathScreen() {
+        ASSET_MANAGER.playAsset("./resources/sfx/playerDeath.mp3");
         this.deathScreen = true;
         this.endScore = this.player.score;
-
     };
 
     resetGameState() {
@@ -142,6 +153,4 @@ class SceneManager {
         this.warmUpTimer += this.game.clockTick;
     };
 
-
-
-}
+};
