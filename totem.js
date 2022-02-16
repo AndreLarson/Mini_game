@@ -10,7 +10,7 @@ class Totem {
 
         this.width = 64 * this.scale;
         this.height = 96 * this.scale;
-        this.velocity = this.velocity * 0.9;
+        this.velocity = this.velocity * 0.91;
 
         this.dead = false;
         this.isHit = false;

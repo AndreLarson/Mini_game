@@ -15,6 +15,7 @@ ASSET_MANAGER.queueDownload("./resources/sfx/bgm1.mp3");
 ASSET_MANAGER.queueDownload("./resources/sfx/bgm2.mp3");
 ASSET_MANAGER.queueDownload("./resources/sfx/playerDeath.mp3");
 ASSET_MANAGER.queueDownload("./resources/sfx/playerAttack.mp3");
+ASSET_MANAGER.queueDownload("./resources/sfx/playerHurt.mp3");
 ASSET_MANAGER.queueDownload("./resources/sfx/totemDeath.mp3");
 
 ASSET_MANAGER.downloadAll(() => {

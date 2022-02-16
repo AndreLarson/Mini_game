@@ -82,11 +82,17 @@ class NightBorne {
                             } else if (entity.color == entity.colors.red && entity.canHurt) {
                                 entity.canHurt = false;
                                 that.action = that.actions.hurt;
+                                let audio = ASSET_MANAGER.cache["./resources/sfx/playerHurt.mp3"].cloneNode(true);
+                                audio.volume = document.getElementById("volume").value;
+                                audio.play();
                                 that.health -= 7;
                             } else if (entity.color == entity.colors.blue && that.action == that.actions.attack && entity.canHurt) {
                                 entity.canHurt = false;
                                 entity.isHit = true;
                                 that.action = that.actions.hurt;
+                                let audio = ASSET_MANAGER.cache["./resources/sfx/playerHurt.mp3"].cloneNode(true);
+                                audio.volume = document.getElementById("volume").value;
+                                audio.play();
                                 that.health -= 7;
                             } else if (entity.color == entity.colors.blue && !entity.isHit) {
                                 entity.dead = true;
